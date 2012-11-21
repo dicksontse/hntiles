@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 using QDFeedParser;
 
@@ -21,6 +22,7 @@ namespace HNTiles
 {
     public partial class MainWindow : MetroWindow
     {
+        bool isBusy = false;
         TilesCollection _tiles = new TilesCollection();
 
         public MainWindow()
@@ -33,6 +35,9 @@ namespace HNTiles
         private void GetTiles(object sender, RoutedEventArgs e)
         {
             btnGetTiles.IsEnabled = false;
+            isBusy = true;
+
+            _tiles.Clear();
 
             Uri feeduri = new Uri("http://www.hnsearch.com/bigrss");
             IFeedFactory factory = new HttpFeedFactory();
@@ -45,6 +50,7 @@ namespace HNTiles
                 _tiles.Add(t);
             }
 
+            isBusy = false;
             btnGetTiles.IsEnabled = true;
         }
     }
